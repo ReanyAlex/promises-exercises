@@ -25,11 +25,16 @@ function getFile(file) {
 	});
 }
 
-// Request all files at once in
-// "parallel" via `getFile(..)`.
-//
-// Render as each one finishes,
-// but only once previous rendering
-// is done.
-
-// ???
+ASQ()
+.seq(
+	...["file1","file2","file3"]
+			.map(getFile)
+			.map(function(sq) {
+				return function () {
+				return sq.val(output);
+				}
+	  })
+)
+.val(function() {
+	output("complete")
+})

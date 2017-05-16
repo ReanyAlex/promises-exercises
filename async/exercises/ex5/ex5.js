@@ -18,10 +18,22 @@ function output(text) {
 }
 
 // **************************************
+//Using ASQ for this exercise
+var getFile = ASQ.wrap(fakeAjax, { simplecb: true });
 
 function getFile(file) {
-	// what do we do here?
+	return ASQ(function(done){
+		fakeAjax(file,done);
+	});
 }
 
-// request an array of files at once in "parallel"
-// ???
+
+getFile("file1")
+.val(output)
+.seq(getFile("file2"))
+.val(output)
+.seq(getFile("file3"))
+.val(output)
+.val(function functionName() {
+		output("complete")
+});
