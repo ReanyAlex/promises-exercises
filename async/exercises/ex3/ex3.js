@@ -20,8 +20,31 @@ function output(text) {
 // **************************************
 
 function getFile(file) {
-	// what do we do here?
+	// creates a new promise
+	return new Promise(function(resolve){
+		fakeAjax(file,resolve);
+	});
 }
 
-// request all files at once in "parallel"
-// ???
+//set the variable to the retrieved promise object
+var prom1 = getFile("file1");
+var prom2 = getFile("file2");
+var prom3 = getFile("file3");
+
+//call the information one after another in order
+prom1
+.then(output)
+.then(function(){
+	return prom2;
+})
+.then(output)
+.then(function(){
+	return prom3;
+})
+.then(output)
+.then(function(){
+	output("Complete")
+})
+.catch(function(err){
+	output(err)
+})
